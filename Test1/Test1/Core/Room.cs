@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -25,6 +21,8 @@ namespace Test1
         protected Door _leftDoor;
         protected Door _rightDoor;
         protected Player _player;
+        protected Dictionary<Enemy, IEnemyController> _enemyControllers 
+            = new Dictionary<Enemy, IEnemyController>(); 
         
 
         #endregion
@@ -51,7 +49,9 @@ namespace Test1
                 var x = float.Parse(strings[9 + 3*i]);
                 var y = float.Parse(strings[10 + 3*i]);
                 var name = strings[11 + 3 * i];
-                _enemies.Add(new Enemy(x, y, name));
+                var enemy = new Enemy(x, y, name);
+                _enemies.Add(enemy);
+                _enemyControllers[enemy] = new DefaultEnemyController(enemy, this);
             }
             
         }
@@ -129,6 +129,11 @@ namespace Test1
         {
             get { return _player; }
             set { _player = value; }
+        }
+
+        public Dictionary<Enemy, IEnemyController> EnemyControllers
+        {
+            get { return _enemyControllers; }
         }
 
         #endregion

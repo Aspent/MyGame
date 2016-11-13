@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using Test1.Core;
 
 namespace Test1
 {
@@ -15,16 +9,15 @@ namespace Test1
         #region Fields
 
         int[] _textures;
-        Game _game;
+        //Game _game;
 
         #endregion
 
         #region Constructors
 
-        public PlayerStatsDrawer(int[] textures, Game game)
+        public PlayerStatsDrawer(int[] textures)
         {
             _textures = textures;
-            _game = game;
         }
 
         #endregion
@@ -36,8 +29,8 @@ namespace Test1
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             GL.PushMatrix();
-            var w = _game.Width;
-            var h = _game.Height;
+            var w = GameInfo.Width;
+            var h = GameInfo.Height;
             var ratio = 1.0f * w / h;
 
             for (var i = 0; i < player.MaxHp; i++)

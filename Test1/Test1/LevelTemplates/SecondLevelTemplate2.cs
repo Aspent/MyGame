@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace Test1
 {
-    class FirstLevelTemplate2 : ILevelTemplate
+    class SecondLevelTemplate2 : ILevelTemplate
     {
         static Random random = new Random();
 
@@ -23,32 +20,36 @@ namespace Test1
             Room room6 = new Room(fileNames[random.Next(fileNames.Count)]);
             Room room7 = new Room(fileNames[random.Next(fileNames.Count)]);
 
-            var room8 = new BossRoom(new RectangleF(-0.85f, 0.5f, 1.7f, -1.4f), 3,
-                new Boss(0.15f, -0.25f, 0.3f, 0.2f, 0.2f / 60, 1200, 26, 27, new ShotCharacteristics("Fireball.f"),
-                    20, 1, 0.22f / 60, 1.7f * 2 / 5, "Boss", Boss.ShootRound5));
+            var room8 = new BossRoom(new RectangleF(-0.85f, 0.5f, 1.7f, -1.4f), 43,
+                new Boss(-0.35f, -0.25f, 296.0f / 1500, 458.0f / 1500, 0.2f / 60, 1050, 47, 48, new ShotCharacteristics("Fireball.f"),
+                    22, 2, 0.22f / 60, 1.7f*3/5, "Boss", Boss.ShootRound10));
+            room8.Border.Texture = 46;
 
-            int[] trueState = new int[] { 0, 2, 2 };
-            var note = new Note(new RectangleF(-0.3f, 0.0f, 0.2f, -0.2f), 75, 76, trueState);
+            int[] trueState = new int[] { 2, 0, 1 };
+            var note = new Note(new RectangleF(-0.3f, 0.0f, 0.2f, -0.2f), 75, 77, trueState);
             var room9 = new ChallengeRoom(new RectangleF(-0.85f, 0.5f, 1.7f, -1.4f), 2, note);
+            room9.Border.Texture = 46;
 
-            room1.LeftDoor = new Door(room1, room2, "left");
-            room2.RightDoor = new Door(room2, room1, "right");
+            room1.BotDoor = new Door(room1, room2, "bot");
+            room2.TopDoor = new Door(room2, room1, "top");
 
-            room1.BotDoor = new Door(room1, room6, "bot");
-            room6.TopDoor = new Door(room6, room1, "top");
-            room2.TopDoor = new Door(room2, room3, "top");
-            room3.BotDoor = new Door(room3, room2, "bot");
-            room3.TopDoor = new Door(room3, room4, "top");
-            room4.BotDoor = new Door(room4, room3, "bot");
+            room2.BotDoor = new Door(room2, room3, "bot");
+            room3.TopDoor = new Door(room3, room2, "top");
 
-            room2.LeftDoor = new Door(room2, room5, "left");
-            room5.RightDoor = new Door(room5, room2, "right");
+            room1.TopDoor = new Door(room1, room9, "top");
+            room9.BotDoor = new Door(room9, room1, "bot");
 
-            room5.BotDoor = new Door(room5, room9, "bot");
-            room9.TopDoor = new Door(room9, room5, "top");
+            room2.RightDoor = new Door(room2, room4, "right");
+            room4.LeftDoor = new Door(room4, room2, "left");
 
-            room6.RightDoor = new Door(room6, room7, "right");
-            room7.LeftDoor = new Door(room7, room6, "left");
+            room4.RightDoor = new Door(room4, room5, "right");
+            room5.LeftDoor = new Door(room5, room4, "left");
+
+            room3.LeftDoor = new Door(room3, room6, "left");
+            room6.RightDoor = new Door(room6, room3, "right");
+
+            room6.LeftDoor = new Door(room6, room7, "left");
+            room7.RightDoor = new Door(room7, room6, "right");
 
             room7.BotDoor = new Door(room7, room8, "bot");
             room8.TopDoor = new Door(room8, room7, "top");

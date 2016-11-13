@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Test1
+﻿namespace Test1
 {
-    class LevelSupervisor
+    class LevelSupervisor: ILevelSupervisor
     {
         #region Fields
 
@@ -15,6 +9,7 @@ namespace Test1
         Player _player;
         RoomSupervisor _roomSupervisor;
         int[] _textures;
+        //private Level _level;
         
 
         #endregion
@@ -34,7 +29,7 @@ namespace Test1
 
         #region Methods
 
-        public void Run(Level level)
+        public void Run()
         {
             if (_currentRoom is ChallengeRoom)
             {
@@ -47,8 +42,8 @@ namespace Test1
             }
 
             new PlayerDrawer(_textures).Draw(_player);
-            new PlayerStatsDrawer(_textures, _game).Draw(_player);
-            new MinimapDrawer(_textures, _game).Draw(_currentRoom);
+            new PlayerStatsDrawer(_textures).Draw(_player);
+            new MinimapDrawer(_textures).Draw(_currentRoom);
             _player.Controller.Control(_player, _currentRoom);
 
             _roomSupervisor.Run(_player, _currentRoom);

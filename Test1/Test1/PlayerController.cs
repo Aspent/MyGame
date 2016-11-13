@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using System.Drawing;
+using Test1.Core;
 
 namespace Test1
 {
@@ -17,8 +12,7 @@ namespace Test1
         List<Command> _commands = new List<Command>();
 
         #endregion
-        
-                   
+                      
         #region Constructors
 
         public PlayerController()
@@ -72,8 +66,7 @@ namespace Test1
             _commands.Add(shootingUp);
             _commands.Add(shootingDown);
             _commands.Add(turningLeverLeft);
-            _commands.Add(turningLeverRight);
-            
+            _commands.Add(turningLeverRight);    
         }
 
         #endregion
@@ -146,6 +139,28 @@ namespace Test1
                 player));
         }
 
+        private void Shoot(Player player, Room room)
+        {
+            var w = GameInfo.Width;
+            var h = GameInfo.Height;
+            var pos = OpenTK.Input.Mouse.GetCursorState();                    
+            var x = -1.0f * w / h + 2.0f * pos.X / h;
+            var y = 1.0f - 2.0f * pos.Y / h;
+
+            if (x - player.XAttack < 0)
+            {
+                player.TurnLeft();
+            }
+            else 
+            {
+                player.TurnRight();
+            }
+
+            var direction = new Vector2(x - player.XAttack, y - player.YAttack);
+            player.Shoot(room, new Shot(player.XAttack, player.YAttack, direction,
+                player));
+        }
+
         private void TurnLeverLeft(Player player, Room room)
         {
             if (room is ChallengeRoom)
@@ -179,6 +194,11 @@ namespace Test1
         public void Control(Player player, Room room)
         {
             var state = OpenTK.Input.Keyboard.GetState();
+            var st = OpenTK.Input.Mouse.GetState();
+            if (st[MouseButton.Left])
+            {
+                Shoot(player, room);
+            }
             bool _allKeys = true;
             foreach(var t in _commands)
             {

@@ -1,37 +1,27 @@
 ﻿namespace Test1
 {
-    class RoomSupervisor
+    class DefaultRoomSupervisor : IRoomSupervisor
     {
-        #region Fields
+        private Room _room;
 
-        Game _game;
-
-        #endregion
-
-        #region Constructors
-
-        public RoomSupervisor(Game game)
+        public DefaultRoomSupervisor(Room room)
         {
-            _game = game;
+            _room = room;
             OnShotBorderCollision += ShotBorderHandle;
             OnShotPlayerCollision += ShotPlayerHandle;
             OnShotEnemyCollision += ShotEnemyHandle;
             OnPlayerItemCollision += PlayerItemHandle;
         }
 
-        #endregion
-
         #region Events
 
-        public event ShotBorderHandler OnShotBorderCollision;
+        public event RoomSupervisor.ShotBorderHandler OnShotBorderCollision;
 
-        public event ShotPlayerHandler OnShotPlayerCollision;
+        public event RoomSupervisor.ShotPlayerHandler OnShotPlayerCollision;
 
-        public event ShotEnemyHandler OnShotEnemyCollision;
+        public event RoomSupervisor.ShotEnemyHandler OnShotEnemyCollision;
 
-        public event PlayerItemHandler OnPlayerItemCollision;
-
-
+        public event RoomSupervisor.PlayerItemHandler OnPlayerItemCollision;
 
         #endregion
 
@@ -52,7 +42,7 @@
         {
             if (shot.Owner is Player)
             {
-                enemy.TakeDamage(shot.Damage);              
+                enemy.TakeDamage(shot.Damage);
             }
             shot.IsRemoved = true;
         }
@@ -60,7 +50,7 @@
 
         private void PlayerItemHandle(Player player, Item item)
         {
-            item.Effect.Invoke(player, _game);
+            //item.Effect.Invoke(player, _game);
             item.IsPicked = true;
         }
 
@@ -97,9 +87,10 @@
             return item.IsPicked;
         }
 
-        public void Run(Player player, Room room)
+        public void Run()
         {
-            foreach (var t in room.Enemies)
+            var player = _room.Player;
+            foreach (var t in _room.Enemies)
             {
                 if (!t.IsWaiting)
                 {
@@ -116,7 +107,7 @@
                     //}
                     //if (distance > 0.8f * t.ShotRange)
                     //{
-                    //    if(t.CanMove(direction, room))
+                    //    if (t.CanMove(direction, _room))
                     //    {
                     //        t.Move(direction);
                     //    }
@@ -124,16 +115,16 @@
                     //else
                     //{
                     //    direction = new Vector2(player.X - t.XAttack, player.YAttack - t.Y);
-                    //    t.Shoot(room, new Shot(t.XAttack, t.YAttack, direction, t));
+                    //    t.Shoot(_room, new Shot(t.XAttack, t.YAttack, direction, t));
                     //}
 
-                    
+                    _room.EnemyControllers[t].Control();
 
-                    if(t is Boss)
+                    if (t is Boss)
                     {
                         var bEnemy = t as Boss;
-                        var bRoom = room as BossRoom;
-                        if (bEnemy.CanUseSkill && bEnemy.Hp < bEnemy.MaxHp / 2) 
+                        var bRoom = _room as BossRoom;
+                        if (bEnemy.CanUseSkill && bEnemy.Hp < bEnemy.MaxHp / 2)
                         {
                             bEnemy.UseSkill(bEnemy, bRoom);
                         }
@@ -141,29 +132,29 @@
                 }
             }
 
-            if(room.SummonedEnemies.Count != 0)
+            if (_room.SummonedEnemies.Count != 0)
             {
-                foreach(var t in room.SummonedEnemies)
+                foreach (var t in _room.SummonedEnemies)
                 {
                     t.IsWaiting = false;
-                    room.Enemies.Add(t);
+                    _room.Enemies.Add(t);
                 }
-                room.SummonedEnemies.Clear();
+                _room.SummonedEnemies.Clear();
             }
 
-            
-            foreach (var t in room.Shots)
+
+            foreach (var t in _room.Shots)
             {
                 t.Move();
             }
-            room.Shots.RemoveAll(ShotIsRemoved);
+            _room.Shots.RemoveAll(ShotIsRemoved);
 
             var collisionChecker = new CollisionChecker();
-            foreach (var t in room.Shots)
+            foreach (var t in _room.Shots)
             {
-                if (collisionChecker.IsCollided(t, room))
+                if (collisionChecker.IsCollided(t, _room))
                 {
-                    OnShotBorderCollision(t, room);
+                    OnShotBorderCollision(t, _room);
                 }
                 if (collisionChecker.IsCollided(t, player))
                 {
@@ -172,7 +163,7 @@
                         OnShotPlayerCollision?.Invoke(t, player);
                     }
                 }
-                foreach(var item in room.Enemies)
+                foreach (var item in _room.Enemies)
                 {
                     if (collisionChecker.IsCollided(t, item))
                     {
@@ -184,46 +175,16 @@
                 }
             }
 
-            foreach (var t in room.Items)
+            foreach (var t in _room.Items)
             {
-                if(collisionChecker.IsCollided(player, t) && t.IsAvailable)
+                if (collisionChecker.IsCollided(player, t) && t.IsAvailable)
                 {
                     OnPlayerItemCollision(player, t);
                 }
             }
-
-            if(room is BossRoom)
-            {
-                var bRoom = room as BossRoom;
-                if(collisionChecker.IsCollided(player, bRoom.FinishZone))
-                {
-                    if(bRoom.FinishZone.IsActive)
-                    {
-                        if (bRoom.Boss.IsFinal)
-                        {
-                            _game.Win();
-                        }
-                        else
-                        {
-                            _game.GoToNextLevel();                           
-                        }
-                    }
-                }
-            }
-
-            if (room is ChallengeRoom)
-            {
-                var chalRoom = room as ChallengeRoom;
-                if(collisionChecker.IsCollided(player, chalRoom.Note))
-                {
-                    new TaskDrawer(_game.Textures).Draw(chalRoom.Note);
-                }
-                
-            }
-
-            room.Shots.RemoveAll(ShotIsRemoved);
-            room.Enemies.RemoveAll(EnemyIsDead);
-            room.Items.RemoveAll(ItemIsPicked);
+            _room.Shots.RemoveAll(ShotIsRemoved);
+            _room.Enemies.RemoveAll(EnemyIsDead);
+            _room.Items.RemoveAll(ItemIsPicked);
 
         }
 

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using System.Drawing;
+using Test1.Core;
 
 namespace Test1
 {
@@ -14,32 +12,31 @@ namespace Test1
     {
         #region Fields
 
-        int[] _textures = new int[100];
+        readonly int[] _textures = new int[100];
         Room _currentRoom;
-        List<Level> _levels = new List<Level>();
-        RoomDrawer roomDrawer;
+        readonly List<Level> _levels = new List<Level>();
         Player _player;
-        PlayerDrawer playerDrawer;
         LevelSupervisor _levelSupervisor;
         bool _isPausing = true;
         Menu _currentMenu;
-        Menu _mainMenu;
-        Menu _pauseMenu;
-        Menu _winnerMenu;
-        Menu _loserMenu;
-        Menu _controlMenu;
+        readonly Menu _mainMenu;
+        readonly Menu _pauseMenu;
+        readonly Menu _winnerMenu;
+        readonly Menu _loserMenu;
+        readonly Menu _controlMenu;
         Menu _prevMenu;
         int _currentLevel;
-        List<string> _firstLevelFileNames = new List<string>();
-        List<string> _secondLevelFileNames = new List<string>();
-        List<string> _thirdLevelFileNames = new List<string>();
+        readonly List<string> _firstLevelFileNames = new List<string>();
+        readonly List<string> _secondLevelFileNames = new List<string>();
+        readonly List<string> _thirdLevelFileNames = new List<string>();
 
-        List<ILevelTemplate> _firstLevelTemplates = new List<ILevelTemplate>();
-        List<ILevelTemplate> _secondLevelTemplates = new List<ILevelTemplate>();
-        List<ILevelTemplate> _thirdLevelTemplates = new List<ILevelTemplate>();
+        readonly List<ILevelTemplate> _firstLevelTemplates = new List<ILevelTemplate>();
+        readonly List<ILevelTemplate> _secondLevelTemplates = new List<ILevelTemplate>();
+        readonly List<ILevelTemplate> _thirdLevelTemplates = new List<ILevelTemplate>();
 
-        Dictionary<string, Item.ItemEffect> _itemEffects = new Dictionary<string,Item.ItemEffect>();
-        List<string> _itemNames = new List<string>();
+        readonly Dictionary<string, Item.ItemEffect> _itemEffects = new Dictionary<string,Item.ItemEffect>();
+        readonly List<string> _itemNames = new List<string>();
+        private Dictionary<Level, ILevelSupervisor> _levelSupervisors = new Dictionary<Level, ILevelSupervisor>(); 
 
         #endregion
 
@@ -85,14 +82,32 @@ namespace Test1
             _itemNames.Add("Molotok");
 
             _player = new Player(-0.4f, 0.0f, 359.0f / 4000, 982.0f / 4000, 0.4f / 60, 1000, 86, 87,
-                  new ShotCharacteristics("Fireball.f"), 7, 2, 0.4f / 60, 0.5f, "Boy");
+                  new ShotCharacteristics("Fireball.f"), 70, 29, 0.4f / 60, 0.5f, "Boy");
 
-            var levelGenerator = new LevelGenerator(_firstLevelTemplates);
-            _levels.Add(levelGenerator.Generate(_itemNames, _itemEffects, _firstLevelFileNames));
-            levelGenerator = new LevelGenerator(_secondLevelTemplates);
-            _levels.Add(levelGenerator.Generate(_itemNames, _itemEffects, _secondLevelFileNames));
-            levelGenerator = new LevelGenerator(_thirdLevelTemplates);
-            _levels.Add(levelGenerator.Generate(_itemNames, _itemEffects, _thirdLevelFileNames));
+            //var pd = new Dictionary<Player, int>();
+            //pd[_player] = 3;
+            //Console.WriteLine(pd[_player]);
+            //_player.UpAttackSpeed();
+            //Console.WriteLine(pd[_player]);
+
+            //var levelGenerator = new LevelGenerator(_firstLevelTemplates);
+            //var level1 = levelGenerator.Generate(_itemNames, _itemEffects, _firstLevelFileNames);
+            var level1 = new Level();
+            _levels.Add(level1);
+            //_levelSupervisors[level1] = new LevelSupervisor(this);
+
+
+            //levelGenerator = new LevelGenerator(_secondLevelTemplates);
+            var level2 = new Level();
+            //var level2 = levelGenerator.Generate(_itemNames, _itemEffects, _secondLevelFileNames);
+            _levels.Add(level2);
+            //_levelSupervisors[level2] = new LevelSupervisor(this);
+
+            //levelGenerator = new LevelGenerator(_thirdLevelTemplates);
+            var level3 = new Level();
+            //var level3 = levelGenerator.Generate(_itemNames, _itemEffects, _thirdLevelFileNames);
+            _levels.Add(level3);
+            //_levelSupervisors[level3] = new LevelSupervisor(this);
 
             _levels[_levels.Count - 1].BossRoom.Boss.IsFinal = true;
 
@@ -101,6 +116,15 @@ namespace Test1
             _currentRoom.Player = _player;
             _levelSupervisor = new LevelSupervisor(this);
             _isPausing = false;
+
+            //_levelSupervisors[level1] = new LevelSupervisor(this);
+            //_levelSupervisors[level2] = new LevelSupervisor(this);
+            //_levelSupervisors[level3] = new LevelSupervisor(this);
+
+            _levelSupervisors[level1] = new DefaultLevelSupervisor(level1);
+            _levelSupervisors[level2] = new DefaultLevelSupervisor(level2);
+            _levelSupervisors[level3] = new DefaultLevelSupervisor(level3);
+
         }
 
         #region Constructors
@@ -189,7 +213,7 @@ namespace Test1
             _currentRoom = _levels[_currentLevel].Rooms[_levels[_currentLevel].StartRoomIndex];
             _currentRoom.Player = _player;
             _player.MoveTo(-0.4f, 0);
-            _levelSupervisor = new LevelSupervisor(this);
+            //_levelSupervisor = new LevelSupervisor(this);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -286,10 +310,7 @@ namespace Test1
             _textures[87] = new TextureLoader().LoadTexture("Textures/BoyRight.png");
             _textures[88] = new TextureLoader().LoadTexture("Textures/NextRooms.png");
             _textures[89] = new TextureLoader().LoadTexture("Textures/ThisRoom.png");
-            
-
-            roomDrawer = new RoomDrawer(_textures);
-            playerDrawer = new PlayerDrawer(_textures);
+            Console.WriteLine("Textures were loaded");
         }
 
         protected override void OnKeyDown(KeyboardKeyEventArgs e)
@@ -305,16 +326,15 @@ namespace Test1
                     _prevMenu = _pauseMenu;
                     _isPausing = true;
                 }
-            }
-
+            }          
         }
 
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
             var nRange = 1.0f;
-            int w = this.Width;
-            int h = this.Height;
+            var w = Width;
+            var h = Height;
             GL.Viewport(0, 0, w, h);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
@@ -330,6 +350,9 @@ namespace Test1
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            GameInfo.Width = Width;
+            GameInfo.Height = Height;
+
             base.OnRenderFrame(e);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.MatrixMode(MatrixMode.Modelview);
@@ -341,8 +364,9 @@ namespace Test1
             }
             else
             {
-                
-                _levelSupervisor.Run(_levels[_currentLevel]);
+                _levelSupervisors[_levels[_currentLevel]].Run();
+                new LevelDrawer(_levels[_currentLevel], _textures).Draw();
+                //_levelSupervisor.Run();
 
 
                 if (_player.Hp <= 0)
@@ -359,19 +383,10 @@ namespace Test1
 
         #endregion
 
-        public Player Player
-        {
-            get { return _player; }
-        }
+        public Player Player => _player;
 
-        public Room CurrentRoom
-        {
-            get { return _currentRoom; }
-        }
+        public Room CurrentRoom => _currentRoom;
 
-        public int[] Textures
-        {
-            get {return _textures;}
-        }
+        public int[] Textures => _textures;
     }
 }

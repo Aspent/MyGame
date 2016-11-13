@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using System.Timers;
 
 
@@ -217,16 +212,12 @@ namespace Test1
 
         public void Shoot(Room room, Shot shot)
         {
-            if (_canShoot)
-            {
-                room.Shots.Add(shot);
-                _canShoot = false;
-                var timer = new Timer(_attackSpeed);
-                timer.AutoReset = false;
-                timer.Elapsed += OnTimedEvent;
-                timer.Start();
-            }
-            
+            if (!_canShoot) return;
+            room.Shots.Add(shot);
+            _canShoot = false;
+            var timer = new Timer(_attackSpeed) {AutoReset = false};
+            timer.Elapsed += OnTimedEvent;
+            timer.Start();
         }
 
         public void TakeDamage(int damage)

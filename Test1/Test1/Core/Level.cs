@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace Test1
@@ -14,6 +10,8 @@ namespace Test1
         List<Room> _rooms;
         int _startRoomIndex;
         BossRoom _bossRoom;
+        private Room _currentRoom;
+        private Dictionary<Room, IRoomSupervisor> _roomSupervisors = new Dictionary<Room, IRoomSupervisor>(); 
         
         #endregion
 
@@ -34,7 +32,7 @@ namespace Test1
                 new Boss(0.15f, -0.25f, 0.3f, 0.2f, 0.2f / 60, 1200, 7, 16, new ShotCharacteristics("Fireball.f"),
                     30, 4, 0.22f / 60, 1, "Boss", Boss.ShootRound10));
 
-            int[] trueState = new int[] {0, 2, 2};
+            var trueState = new[] {0, 2, 2};
             var note = new Note(new RectangleF(0.5f, 0.5f, 0.2f, 0.2f), 0, 1, trueState);
             var room8 = new ChallengeRoom(new RectangleF(-0.85f, 0.5f, 1.7f, -1.4f), 1, note);
 
@@ -62,6 +60,15 @@ namespace Test1
             _rooms.Add(room4);
             _rooms.Add(room5);
             _rooms.Add(room6);
+            _rooms.Add(room7);
+            _rooms.Add(room8);
+
+            foreach (var t in _rooms)
+            {
+                _roomSupervisors[t] = new DefaultRoomSupervisor(t);
+            }
+            _currentRoom = _rooms[_startRoomIndex];
+
 
         }
 
@@ -91,6 +98,22 @@ namespace Test1
             get { return _bossRoom; }
         }
 
+        //public int CurrentRoomIndex
+        //{
+        //    get { return _currentRoomIndex; }
+        //    set { _currentRoomIndex = value; }
+        //}
+
+        public Dictionary<Room, IRoomSupervisor> RoomSupervisors
+        {
+            get { return _roomSupervisors; }
+        }
+
+        public Room CurrentRoom
+        {
+            get { return _currentRoom; }
+            set { _currentRoom = value; }
+        }
 
         #endregion
     }

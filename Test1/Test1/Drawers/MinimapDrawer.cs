@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using Test1.Core;
 
 namespace Test1
 {
@@ -15,7 +9,7 @@ namespace Test1
         #region Fields
 
         int[] _textures;
-        Game _game;
+        //Game _game;
         float _rectSide = 0.05f;
         float _linkWidth = 0.012f;
         float _linkHeight = 0.02f;
@@ -24,10 +18,10 @@ namespace Test1
 
         #region Constructors
 
-        public MinimapDrawer(int[] textures, Game game)
+        public MinimapDrawer(int[] textures)
         {
             _textures = textures;
-            _game = game;
+            //_game = game;
         }
 
         #endregion
@@ -39,8 +33,8 @@ namespace Test1
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             GL.PushMatrix();
-            var w = _game.Width;
-            var h = _game.Height;
+            var w = GameInfo.Width;
+            var h = GameInfo.Height;
             var ratio = 1.0f * w / h;
 
             GL.BindTexture(TextureTarget.Texture2D, _textures[88]);

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C1EDD06A-2576-45BD-8512-C6F8C5C66B42}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Test1</RootNamespace>
     <AssemblyName>Test1</AssemblyName>
@@ -56,10 +56,18 @@
   <ItemGroup>
     <Compile Include="Core\Boss.cs" />
     <Compile Include="Core\BossRoom.cs" />
+    <Compile Include="Core\GameInfo.cs" />
+    <Compile Include="Core\LevelDrawer.cs" />
+    <Compile Include="DefaultLevelSupervisor.cs" />
+    <Compile Include="DefaultEnemyController.cs" />
+    <Compile Include="DefaultRoomSupervisor.cs" />
+    <Compile Include="IEnemyController.cs" />
+    <Compile Include="ILevelSupervisor.cs" />
+    <Compile Include="IRoomSupervisor.cs" />
     <Compile Include="Menu\Button.cs" />
     <Compile Include="Drawers\ButtonDrawer.cs" />
     <Compile Include="Core\ChallengeRoom.cs" />
-    <Compile Include="CollisionChecker.cs" />
+    <Compile Include="Service\CollisionChecker.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Core\Door.cs" />
     <Compile Include="Drawers\DoorDrawer.cs" />
@@ -67,17 +75,17 @@
     <Compile Include="Drawers\EnemyDrawer.cs" />
     <Compile Include="EnemyWriter.cs" />
     <Compile Include="Core\FinishZone.cs" />
-    <Compile Include="FinishZoneDrawer.cs" />
-    <Compile Include="FirstLevelTemplate.cs" />
-    <Compile Include="FirstLevelTemplate2.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Drawers\FinishZoneDrawer.cs" />
+    <Compile Include="LevelTemplates\FirstLevelTemplate.cs" />
+    <Compile Include="LevelTemplates\FirstLevelTemplate2.cs" />
+    <Compile Include="Core\Game.cs" />
     <Compile Include="IController.cs" />
-    <Compile Include="ILevelTemplate.cs" />
-    <Compile Include="IntersectionDeterminant.cs" />
+    <Compile Include="LevelTemplates\ILevelTemplate.cs" />
+    <Compile Include="Service\IntersectionDeterminant.cs" />
     <Compile Include="Core\Item.cs" />
     <Compile Include="Drawers\ItemDrawer.cs" />
     <Compile Include="Core\ItemEffect.cs" />
-    <Compile Include="ItemWriter.cs" />
+    <Compile Include="Service\ItemWriter.cs" />
     <Compile Include="Core\Level.cs" />
     <Compile Include="LevelGenerator.cs" />
     <Compile Include="LevelSupervisor.cs" />
@@ -104,16 +112,16 @@
     <Compile Include="Drawers\RoomBorderDrawer.cs" />
     <Compile Include="Drawers\RoomDrawer.cs" />
     <Compile Include="RoomSupervisor.cs" />
-    <Compile Include="RoomWriter.cs" />
-    <Compile Include="SecondLevelTemplate1.cs" />
-    <Compile Include="SecondLevelTemplate2.cs" />
+    <Compile Include="Service\RoomWriter.cs" />
+    <Compile Include="LevelTemplates\SecondLevelTemplate1.cs" />
+    <Compile Include="LevelTemplates\SecondLevelTemplate2.cs" />
     <Compile Include="Core\Shot.cs" />
     <Compile Include="Core\ShotCharacteristics.cs" />
-    <Compile Include="ShotCharacteristicWriter.cs" />
+    <Compile Include="Service\ShotCharacteristicWriter.cs" />
     <Compile Include="Drawers\ShotDrawer.cs" />
     <Compile Include="Drawers\TaskDrawer.cs" />
-    <Compile Include="TextureLoader.cs" />
-    <Compile Include="ThirdLevelTemplate.cs" />
+    <Compile Include="Service\TextureLoader.cs" />
+    <Compile Include="LevelTemplates\ThirdLevelTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
