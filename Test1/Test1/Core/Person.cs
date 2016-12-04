@@ -104,6 +104,7 @@ namespace Test1
         public int Texture
         {
             get { return _currentTexture; }
+            set { _currentTexture = value; }
         }
 
         public int LeftTexture

@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System.Text;
+using System.Windows.Forms;
+using Test1.Net;
 
 namespace Test1
 {
@@ -12,9 +14,12 @@ namespace Test1
             {
                 game.Run();
             }
+            //var netWorker = new NetWorker();
+            //netWorker.Connect();
+            //var str = "I love you server!";
+            //netWorker.Send(Encoding.UTF8.GetBytes(str));
         }
     }
 }
-//TODO: Добавить контроллеры игроков и врагов
-//TODO: Исправить обработку комнат
+
 //TODO: Добавить 2 игрока

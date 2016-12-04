@@ -15,7 +15,9 @@ namespace Test1
         float _range;
         int _damage;
         float _speed;
-
+        private int _texture;
+        private float _width;
+        private float _height;
 
         #endregion
 
@@ -31,6 +33,20 @@ namespace Test1
             _range = owner.ShotRange;
             _damage = owner.Damage;
             _speed = owner.ShotSpeed;
+            _texture = _owner.Texture;
+            _width = _owner.Width;
+            _height = Owner.Height;
+        }
+
+        public Shot(float x, float y, float width, float height,  int texture)
+        {
+            _x = x;
+            _y = y;
+            //_owner = owner;
+            //_owner.ShotChar = new ShotCharacteristics();
+            _width = width;
+            _height = height;
+            _texture = texture;
         }
 
         #endregion
@@ -49,12 +65,14 @@ namespace Test1
 
         public float Width
         {
-            get { return _owner.ShotChar.Width; }
+            //get { return _owner.ShotChar.Width; }
+            get { return _width; }
         }
 
         public float Height
         {
-            get { return _owner.ShotChar.Height; }
+            //get { return _owner.ShotChar.Height; }
+            get { return _height; }
         }
 
         public RectangleF Form
@@ -64,12 +82,22 @@ namespace Test1
 
         public float Speed
         {
-            get { return _owner.ShotSpeed; }
+            get
+            {
+                if (_owner != null)
+                {
+                    return _owner.ShotSpeed;
+                }
+                return 0;
+            }
         }
 
         public int Texture
         {
-            get { return _owner.ShotChar.Texture; }
+            //get { return _owner.ShotChar.Texture; }
+            //set { _owner.ShotChar.Texture = value; }
+            get { return _texture; }
+            set { _texture = value; }
         }
 
         public float Range
@@ -93,6 +121,8 @@ namespace Test1
             get { return _owner; }
         }
 
+
+
         #endregion
 
         #region Methods
@@ -106,5 +136,11 @@ namespace Test1
         }
 
         #endregion
+
+        public void MoveTo(float x, float y)
+        {
+            _x = x;
+            _y = y;
+        }
     }
 }

@@ -374,9 +374,11 @@ namespace Test1
                     _currentMenu = _loserMenu;
                     _isPausing = true;
                 }
-            }
-
-                       
+                var commandHandler = new NetRoomCommandHandler(_levels[_currentLevel]);
+                var levelCommandHandler = new NetLevelCommandHandler(_levels[_currentLevel]);
+                commandHandler.Run();
+                levelCommandHandler.Run();
+            }                   
             SwapBuffers();
             
         }

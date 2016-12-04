@@ -69,7 +69,7 @@ namespace Test1
             }
             _currentRoom = _rooms[_startRoomIndex];
 
-
+            //room1.Enemies.Clear();
         }
 
         public Level(List<Room> rooms, BossRoom bossRoom, int startRoomIndex)

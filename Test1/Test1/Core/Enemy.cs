@@ -61,6 +61,13 @@ namespace Test1
             _timer.Elapsed += OnTimedEvent;
         }
 
+        public Enemy(float x, float y, int currentTexture)
+        {
+            _x = x;
+            _y = y;
+            _currentTexture = currentTexture;
+        }
+
         #endregion
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)

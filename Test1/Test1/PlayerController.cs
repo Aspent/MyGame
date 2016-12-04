@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using OpenTK;
 using OpenTK.Input;
 using Test1.Core;
@@ -9,7 +11,7 @@ namespace Test1
     {
         #region Fields
 
-        List<Command> _commands = new List<Command>();
+        readonly List<Command> _commands = new List<Command>();
 
         #endregion
                       
@@ -18,19 +20,19 @@ namespace Test1
         public PlayerController()
         {
             var movingLeft = new Command(new List<Key>(), new List<Command.PlayerAction>());
-            movingLeft.Keys.Add(Key.A);
+            movingLeft.Keys.Add(Key.Number1);
             movingLeft.Actions.Add(MoveLeft);
             
             var movingRight = new Command(new List<Key>(), new List<Command.PlayerAction>());
-            movingRight.Keys.Add(Key.D);
+            movingRight.Keys.Add(Key.Number2);
             movingRight.Actions.Add(MoveRight);
 
             var movingUp = new Command(new List<Key>(), new List<Command.PlayerAction>());
-            movingUp.Keys.Add(Key.W);
+            movingUp.Keys.Add(Key.Number3);
             movingUp.Actions.Add(MoveUp);
 
             var movingDown = new Command(new List<Key>(), new List<Command.PlayerAction>());
-            movingDown.Keys.Add(Key.S);
+            movingDown.Keys.Add(Key.Number4);
             movingDown.Actions.Add(MoveDown);
 
             var shootingLeft = new Command(new List<Key>(), new List<Command.PlayerAction>());
@@ -199,25 +201,26 @@ namespace Test1
             {
                 Shoot(player, room);
             }
-            bool _allKeys = true;
+            var allKeys = true;
             foreach(var t in _commands)
             {
                 foreach (var key in t.Keys)
                 {
                     if (!state[key])
                     {
-                        _allKeys = false;
+                        allKeys = false;
                     }
                 }
-                if(_allKeys)
+                if(allKeys)
                 {
                     foreach(var act in t.Actions)
-                    {
+                    {                   
+                        //Console.WriteLine(t.Keys[0]);
                         act.Invoke(player, room);
                     }
                     
                 }
-                _allKeys = true;
+                allKeys = true;
             }
         }
 
