@@ -6,7 +6,7 @@ namespace Test1
 {
     class ThirdLevelTemplate : ILevelTemplate
     {
-        static Random random = new Random();
+        static readonly Random random = new Random();
 
         public Level GetLevel(List<string> itemNames, Dictionary<string, Item.ItemEffect> itemEffects,
             List<string> fileNames)

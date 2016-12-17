@@ -2,8 +2,8 @@
 {
     class DefaultLevelSupervisor : ILevelSupervisor
     {
-        private Level _level;
-        private NetPlayerController _controller = new NetPlayerController();
+        private readonly Level _level;
+        private readonly NetPlayerController _controller = new NetPlayerController();
         public DefaultLevelSupervisor(Level level)
         {
 
@@ -17,7 +17,7 @@
             var player = currentRoom.Player;
            // player.Controller.Control(player, currentRoom);
             _controller.Control();
-            new PlayerUpdater().Update(player);
+            //new PlayerUpdater().Update(player);
             //var collisionChecker = new CollisionChecker();
             //if (currentRoom.Enemies.Count == 0 && !(currentRoom is ChallengeRoom))
             //{

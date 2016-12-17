@@ -4,8 +4,8 @@
     {
         #region Fields
 
-        float _width;
-        float _height;
+        readonly float _width;
+        readonly float _height;
         int _texture;
 
         #endregion

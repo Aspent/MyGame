@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Net;
-using OpenTK.Input;
 
 namespace Test1.Net
 {
@@ -17,8 +11,8 @@ namespace Test1.Net
 
         public void Connect()
         {
-            _client = new UdpClient("127.0.0.1", 30322);
-            //_client = new UdpClient("2.92.124.127", 30322);
+            //_client = new UdpClient("192.168.0.104", 30322);
+            _client = new UdpClient("2.92.94.145", 30322);
             _sender = new IPEndPoint(IPAddress.Any, 0);
         }
 

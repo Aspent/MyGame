@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK.Input;
 
 namespace Test1
 {
     class PlayerControlCommand
     {
-        private List<Key> _keys;
-        private List<Action> _actions;
+        private readonly List<Key> _keys;
+        private readonly List<Action> _actions;
 
         public PlayerControlCommand(List<Key> keys, List<Action> actions)
         {

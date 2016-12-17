@@ -6,8 +6,8 @@ namespace Test1
     {
         #region Fields
 
-        Boss _boss;
-        FinishZone _finishZone;
+        readonly Boss _boss;
+        readonly FinishZone _finishZone;
 
         #endregion
 

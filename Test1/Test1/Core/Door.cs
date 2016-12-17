@@ -6,12 +6,12 @@ namespace Test1
     {
         #region Fields
 
-        Room _nextRoom;
-        RectangleF _form;
-        int _texture;
-        int _closedTexture;
+        readonly Room _nextRoom;
+        readonly RectangleF _form;
+        readonly int _texture;
+        readonly int _closedTexture;
         bool _isLocked = true;
-        string _position;
+        readonly string _position;
 
         #endregion
 

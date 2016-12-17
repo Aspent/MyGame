@@ -8,11 +8,11 @@ namespace Test1
     {
         #region Fields
 
-        int[] _textures;
+        readonly int[] _textures;
         //Game _game;
-        float _rectSide = 0.05f;
-        float _linkWidth = 0.012f;
-        float _linkHeight = 0.02f;
+        readonly float _rectSide = 0.05f;
+        readonly float _linkWidth = 0.012f;
+        readonly float _linkHeight = 0.02f;
 
         #endregion
 

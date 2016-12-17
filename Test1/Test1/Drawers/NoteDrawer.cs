@@ -6,7 +6,7 @@ namespace Test1
     {
          #region Fields
 
-        int[] _textures;
+        readonly int[] _textures;
 
         #endregion
 

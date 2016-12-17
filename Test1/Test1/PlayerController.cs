@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
+﻿using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Input;
 using Test1.Core;

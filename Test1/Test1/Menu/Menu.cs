@@ -7,9 +7,9 @@ namespace Test1
     {
         #region Fields
 
-        RectangleF _form;
-        int _texture;
-        List<Button> _buttons = new List<Button>();
+        readonly RectangleF _form;
+        readonly int _texture;
+        readonly List<Button> _buttons = new List<Button>();
 
         #endregion
 

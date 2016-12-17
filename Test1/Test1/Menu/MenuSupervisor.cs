@@ -8,7 +8,7 @@ namespace Test1
     {
         #region Fields
 
-        Game _game;
+        readonly Game _game;
         static Timer _timer;
         static bool _canClick = true;
 

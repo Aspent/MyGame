@@ -22,7 +22,9 @@ namespace Test1
         protected Door _rightDoor;
         protected Player _player;
         protected Dictionary<Enemy, IEnemyController> _enemyControllers 
-            = new Dictionary<Enemy, IEnemyController>(); 
+            = new Dictionary<Enemy, IEnemyController>();
+
+        protected List<Player> _players= new List<Player>(); 
         
 
         #endregion
@@ -136,7 +138,15 @@ namespace Test1
             get { return _enemyControllers; }
         }
 
+        public List<Player> Players
+        {
+            get { return _players; }
+        }
+
+
         #endregion
+
+
 
         #region Methods
 
@@ -161,6 +171,8 @@ namespace Test1
             }
             return doors;
         }
+
+        
 
         #endregion
 

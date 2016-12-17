@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Test1.Core;
 
 namespace Test1
 {
     class NetLevelCommandHandler
     {
-        private Level _level;
-        private Dictionary<string, ActionOnLevel> _onLevelActions = new Dictionary<string, ActionOnLevel>();
-        private Dictionary<string, int> _parametersCount = new Dictionary<string, int>();
+        private readonly Level _level;
+        private readonly Dictionary<string, ActionOnLevel> _onLevelActions = new Dictionary<string, ActionOnLevel>();
+        private readonly Dictionary<string, int> _parametersCount = new Dictionary<string, int>();
 
         private delegate void ActionOnLevel(Level level, string[] parametres);
 
@@ -23,8 +21,14 @@ namespace Test1
                 //level1.CurrentRoom.Enemies.Add(new Enemy(float.Parse(parametres[0]), float.Parse(parametres[1]),
                 //    int.Parse(parametres[2])));
                 var player = level1.CurrentRoom.Player;
+
+                level1.CurrentRoom.Players.Clear();
+                level1.CurrentRoom.Enemies.Clear();
+                level1.CurrentRoom.Shots.Clear();
+
                 level1.CurrentRoom = level1.Rooms[int.Parse(parametres[0])];
                 level1.CurrentRoom.Player = player;
+                level1.CurrentRoom.Players.Add(player);
             };
             _parametersCount["change_room"] = 1;
 
@@ -36,7 +40,10 @@ namespace Test1
         public void Run()
         {
             var command = Encoding.UTF8.GetString(Network.NetWorker.Receive());
-
+            //if (!_level.CurrentRoom.Players.Contains(_level.CurrentRoom.Player))
+            //{
+            //    _level.CurrentRoom.Players.Add(_level.CurrentRoom.Player);
+            //}
             if (command == null || command == "")
             {
                 return;

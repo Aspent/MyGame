@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using OpenTK.Input;
 using Test1.Net;
 using Test1.Core;
@@ -11,9 +9,9 @@ namespace Test1
 {
     class NetPlayerController
     {
-        private List<PlayerControlCommand> _commands = new List<PlayerControlCommand>();
+        private readonly List<PlayerControlCommand> _commands = new List<PlayerControlCommand>();
         private StringBuilder _message;
-        private NetWorker _netWorker = Network.NetWorker;
+        private readonly NetWorker _netWorker = Network.NetWorker;
         
         public NetPlayerController()
         {

@@ -2,9 +2,9 @@
 {
     class LevelDrawer
     {
-        private Level _level;
-        private Player _player;
-        private int[] _textures;
+        private readonly Level _level;
+        private readonly Player _player;
+        private readonly int[] _textures;
         //private Room _currentRoom;
 
         public LevelDrawer(Level level, int[] textures)
@@ -28,7 +28,7 @@
                 new RoomDrawer(_textures).Draw(_level.CurrentRoom);
             }
 
-            new PlayerDrawer(_textures).Draw(_player);
+            //new PlayerDrawer(_textures).Draw(_player);
             new PlayerStatsDrawer(_textures).Draw(_player);
             new  MinimapDrawer(_textures).Draw(_level.CurrentRoom);
             //_player.Controller.Control(_player, _currentRoom);

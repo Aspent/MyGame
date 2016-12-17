@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System.Windows.Forms;
-using Test1.Net;
+﻿using System.Windows.Forms;
 
 namespace Test1
 {

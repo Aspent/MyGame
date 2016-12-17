@@ -7,11 +7,11 @@ namespace Test1
     {
         #region Fields
 
-        float _width;
-        float _height;
-        int _leftTexture;
-        int _rightTexture;
-        string _name;
+        readonly float _width;
+        readonly float _height;
+        readonly int _leftTexture;
+        readonly int _rightTexture;
+        readonly string _name;
         int _currentTexture;
 
         #endregion

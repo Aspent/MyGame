@@ -10,7 +10,7 @@ namespace Test1
 
         #region Fields
 
-        BossAction _skill;
+        readonly BossAction _skill;
         bool _canUseSkill;
         bool _isFinal;
 

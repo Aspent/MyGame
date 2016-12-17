@@ -6,7 +6,7 @@ namespace Test1
     {
         #region Fields
 
-        int[] _textures;
+        readonly int[] _textures;
 
         #endregion
 
@@ -30,6 +30,12 @@ namespace Test1
 
             var borderDrawer = new RoomBorderDrawer(_textures);
             borderDrawer.Draw(room, room.Border);
+
+            foreach (var t in room.Players)
+            {
+                var playerDrawer = new PlayerDrawer(_textures);
+                playerDrawer.Draw(t);
+            }
 
             foreach(var t in room.Obstacles)
             {

@@ -7,10 +7,10 @@ namespace Test1
     {
         #region Fields
 
-        RectangleF _form;
-        Action _action;
-        int _texture;
-        int _highlightedtexture;
+        readonly RectangleF _form;
+        readonly Action _action;
+        readonly int _texture;
+        readonly int _highlightedtexture;
         int _currentTexture;
         //Timer _timer;
         //bool _canClick;

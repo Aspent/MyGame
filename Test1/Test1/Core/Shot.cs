@@ -11,13 +11,13 @@ namespace Test1
         float _y;
         Vector2 _direction;
         bool _isRemoved;
-        Person _owner;
+        readonly Person _owner;
         float _range;
         int _damage;
         float _speed;
         private int _texture;
-        private float _width;
-        private float _height;
+        private readonly float _width;
+        private readonly float _height;
 
         #endregion
 
@@ -42,8 +42,6 @@ namespace Test1
         {
             _x = x;
             _y = y;
-            //_owner = owner;
-            //_owner.ShotChar = new ShotCharacteristics();
             _width = width;
             _height = height;
             _texture = texture;

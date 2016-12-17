@@ -9,12 +9,12 @@ namespace Test1
 
         #region Fields
 
-        RectangleF _form;
-        int _texture;
+        readonly RectangleF _form;
+        readonly int _texture;
         bool _isAvailable;
         bool _isPicked;
-        ItemEffect _effect;
-        string _name;
+        readonly ItemEffect _effect;
+        readonly string _name;
        
         #endregion
 

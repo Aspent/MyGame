@@ -6,8 +6,8 @@ namespace Test1
     {
         #region Fields
 
-        RectangleF _form;
-        int _texture;
+        readonly RectangleF _form;
+        readonly int _texture;
         bool _isActive;
        
         #endregion

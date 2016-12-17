@@ -4,7 +4,7 @@
     {
         #region Fields
 
-        Game _game;
+        readonly Game _game;
 
         #endregion
 

@@ -4,6 +4,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using System.Drawing;
+using System.Text;
 using Test1.Core;
 
 namespace Test1
@@ -22,7 +23,6 @@ namespace Test1
         readonly Menu _mainMenu;
         readonly Menu _pauseMenu;
         readonly Menu _winnerMenu;
-        readonly Menu _loserMenu;
         readonly Menu _controlMenu;
         Menu _prevMenu;
         int _currentLevel;
@@ -36,7 +36,7 @@ namespace Test1
 
         readonly Dictionary<string, Item.ItemEffect> _itemEffects = new Dictionary<string,Item.ItemEffect>();
         readonly List<string> _itemNames = new List<string>();
-        private Dictionary<Level, ILevelSupervisor> _levelSupervisors = new Dictionary<Level, ILevelSupervisor>(); 
+        private readonly Dictionary<Level, ILevelSupervisor> _levelSupervisors = new Dictionary<Level, ILevelSupervisor>(); 
 
         #endregion
 
@@ -114,6 +114,7 @@ namespace Test1
             _currentLevel = 0;
             _currentRoom = _levels[_currentLevel].Rooms[0];
             _currentRoom.Player = _player;
+            //_currentRoom.Players.Add(_player);
             _levelSupervisor = new LevelSupervisor(this);
             _isPausing = false;
 
@@ -124,6 +125,18 @@ namespace Test1
             _levelSupervisors[level1] = new DefaultLevelSupervisor(level1);
             _levelSupervisors[level2] = new DefaultLevelSupervisor(level2);
             _levelSupervisors[level3] = new DefaultLevelSupervisor(level3);
+
+            foreach (var level in _levels)
+            {
+                foreach (var room in level.Rooms)
+                {
+                    room.Players.Clear();
+                    room.Shots.Clear();
+                    room.Enemies.Clear();
+                }
+            }
+
+            Network.NetWorker.Send(Encoding.UTF8.GetBytes("connect/"));
 
         }
 
@@ -194,8 +207,8 @@ namespace Test1
             _winnerMenu = new Menu(new RectangleF(-1.0f * w / h, 1, 2.0f * w / h, -2), 73);
             _winnerMenu.Buttons.Add(new Button(new RectangleF(-0.3f, -0.6f, 0.6f, -0.2f), GoToMainMenu, 67, 68));
 
-            _loserMenu = new Menu(new RectangleF(-1.0f * w / h, 1, 2.0f * w / h, -2), 74);
-            _loserMenu.Buttons.Add(new Button(new RectangleF(-0.3f, -0.6f, 0.6f, -0.2f), GoToMainMenu, 67, 68));
+            var loserMenu = new Menu(new RectangleF(-1.0f * w / h, 1, 2.0f * w / h, -2), 74);
+            loserMenu.Buttons.Add(new Button(new RectangleF(-0.3f, -0.6f, 0.6f, -0.2f), GoToMainMenu, 67, 68));
 
             _controlMenu = new Menu(new RectangleF(-1.0f * w / h, 1, 2.0f * w / h, -2), 72);
             _controlMenu.Buttons.Add(new Button(new RectangleF(-0.3f, -0.6f, 0.6f, -0.2f), GoToPrevMenu, 67, 68));
@@ -211,8 +224,8 @@ namespace Test1
         {
             _currentLevel++;
             _currentRoom = _levels[_currentLevel].Rooms[_levels[_currentLevel].StartRoomIndex];
-            _currentRoom.Player = _player;
-            _player.MoveTo(-0.4f, 0);
+            //_currentRoom.Player = _player;
+            //_player.MoveTo(-0.4f, 0);
             //_levelSupervisor = new LevelSupervisor(this);
         }
 
@@ -364,20 +377,26 @@ namespace Test1
             }
             else
             {
+                var levelCommandHandler = new NetLevelCommandHandler(_levels[_currentLevel]);
+                var commandHandler = new NetRoomCommandHandler(_levels[_currentLevel]);
+                
+                levelCommandHandler.Run();
+                commandHandler.Run();
+                
+
                 _levelSupervisors[_levels[_currentLevel]].Run();
                 new LevelDrawer(_levels[_currentLevel], _textures).Draw();
-                //_levelSupervisor.Run();
 
 
-                if (_player.Hp <= 0)
-                {
-                    _currentMenu = _loserMenu;
-                    _isPausing = true;
-                }
-                var commandHandler = new NetRoomCommandHandler(_levels[_currentLevel]);
-                var levelCommandHandler = new NetLevelCommandHandler(_levels[_currentLevel]);
-                commandHandler.Run();
-                levelCommandHandler.Run();
+                //if (_player.Hp <= 0)
+                //{
+                //    _currentMenu = _loserMenu;
+                //    _isPausing = true;
+                //}
+                //var commandHandler = new NetRoomCommandHandler(_levels[_currentLevel]);
+                //var levelCommandHandler = new NetLevelCommandHandler(_levels[_currentLevel]);
+                //commandHandler.Run();
+                //levelCommandHandler.Run();
             }                   
             SwapBuffers();
             
@@ -385,7 +404,7 @@ namespace Test1
 
         #endregion
 
-        public Player Player => _player;
+        //public Player Player => _player;
 
         public Room CurrentRoom => _currentRoom;
 

@@ -7,8 +7,8 @@
         Game _game;
         Room _currentRoom;
         Player _player;
-        RoomSupervisor _roomSupervisor;
-        int[] _textures;
+        readonly RoomSupervisor _roomSupervisor;
+        readonly int[] _textures;
         //private Level _level;
         
 
@@ -19,7 +19,7 @@
         public LevelSupervisor(Game game)
         {
             _game = game;
-            _player = game.Player;
+            //_player = game.Player;
             _currentRoom = game.CurrentRoom;
             _roomSupervisor = new RoomSupervisor(game);
             _textures = game.Textures;
@@ -105,7 +105,7 @@
                 {
                     _currentRoom.Shots.Clear();
                     _currentRoom = _currentRoom.TopDoor.NextRoom;
-                    _currentRoom.Player = _game.Player;
+                    //_currentRoom.Player = _game.Player;
                     _player.MoveTo(_currentRoom.BotDoor.Form.Left, _currentRoom.BotDoor.Form.Top + 0.25f);
                     foreach(var t in _currentRoom.Enemies)
                     {
@@ -119,7 +119,7 @@
                 {
                     _currentRoom.Shots.Clear();
                     _currentRoom = _currentRoom.BotDoor.NextRoom;
-                    _currentRoom.Player = _game.Player;
+                    //_currentRoom.Player = _game.Player;
                     _player.MoveTo(_currentRoom.TopDoor.Form.Left, _currentRoom.TopDoor.Form.Bottom);
                     foreach (var t in _currentRoom.Enemies)
                     {
@@ -133,7 +133,7 @@
                 {
                     _currentRoom.Shots.Clear();
                     _currentRoom = _currentRoom.LeftDoor.NextRoom;
-                    _currentRoom.Player = _game.Player;
+                    //_currentRoom.Player = _game.Player;
                     _player.MoveTo(_currentRoom.RightDoor.Form.Left - _player.Form.Width - 0.005f, _currentRoom.RightDoor.Form.Top);
                     foreach (var t in _currentRoom.Enemies)
                     {
@@ -147,7 +147,7 @@
                 {
                     _currentRoom.Shots.Clear();
                     _currentRoom = _currentRoom.RightDoor.NextRoom;
-                    _currentRoom.Player = _game.Player;
+                    //_currentRoom.Player = _game.Player;
                     _player.MoveTo(_currentRoom.LeftDoor.Form.Right, _currentRoom.LeftDoor.Form.Top);
                     foreach (var t in _currentRoom.Enemies)
                     {

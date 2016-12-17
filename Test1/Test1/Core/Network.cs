@@ -5,7 +5,7 @@ namespace Test1.Core
 
     static class Network
     {
-        private static NetWorker _netWorker = new NetWorker();
+        private static readonly NetWorker _netWorker = new NetWorker();
 
         static Network()
         {

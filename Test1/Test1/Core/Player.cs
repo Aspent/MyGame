@@ -5,7 +5,8 @@ namespace Test1
 {
     class Player : Person
     {
-        PlayerController _controller = new PlayerController();
+        readonly PlayerController _controller = new PlayerController();
+        //private int _id;
 
         #region Constructors
 
@@ -17,7 +18,16 @@ namespace Test1
         {
             
             
-        }      
+        }
+
+        public Player(float x, float y, float width, float height, int texture)
+        {
+            _x = x;
+            _y = y;
+            _width = width;
+            _height = height;
+            _currentTexture = texture;
+        }    
 
         public override bool CanMove(Vector2 direction, Room room)
         {

@@ -7,11 +7,11 @@ namespace Test1
     {
         #region Fields
 
-        List<Room> _rooms;
-        int _startRoomIndex;
-        BossRoom _bossRoom;
+        readonly List<Room> _rooms;
+        readonly int _startRoomIndex;
+        readonly BossRoom _bossRoom;
         private Room _currentRoom;
-        private Dictionary<Room, IRoomSupervisor> _roomSupervisors = new Dictionary<Room, IRoomSupervisor>(); 
+        private readonly Dictionary<Room, IRoomSupervisor> _roomSupervisors = new Dictionary<Room, IRoomSupervisor>(); 
         
         #endregion
 

@@ -61,10 +61,12 @@ namespace Test1
             _timer.Elapsed += OnTimedEvent;
         }
 
-        public Enemy(float x, float y, int currentTexture)
+        public Enemy(float x, float y, float width, float height, int currentTexture)
         {
             _x = x;
             _y = y;
+            _width = width;
+            _height = height;
             _currentTexture = currentTexture;
         }
 

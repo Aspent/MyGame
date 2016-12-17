@@ -9,8 +9,8 @@ namespace Test1
 
         #region Fields
 
-        List<Key> _keys;
-        List<PlayerAction> _actions;
+        readonly List<Key> _keys;
+        readonly List<PlayerAction> _actions;
 
         #endregion
 

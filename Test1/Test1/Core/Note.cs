@@ -6,10 +6,10 @@ namespace Test1
     {
         #region Fields
 
-        RectangleF _form;
-        int _texture;
-        int _taskTexture;
-        int[] _trueState;
+        readonly RectangleF _form;
+        readonly int _texture;
+        readonly int _taskTexture;
+        readonly int[] _trueState;
 
         #endregion
 

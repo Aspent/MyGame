@@ -7,8 +7,8 @@ namespace Test1
     {
         #region Fields
 
-        Random _rand = new Random();
-        List<ILevelTemplate> _levelTemplates;
+        readonly Random _rand = new Random();
+        readonly List<ILevelTemplate> _levelTemplates;
 
         #endregion
 

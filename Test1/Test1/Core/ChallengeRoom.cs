@@ -7,8 +7,8 @@ namespace Test1
     {
         #region Fields
 
-        List<Lever> _levers = new List<Lever>();
-        Note _note;
+        readonly List<Lever> _levers = new List<Lever>();
+        readonly Note _note;
 
         #endregion
 

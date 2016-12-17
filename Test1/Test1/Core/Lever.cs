@@ -8,13 +8,13 @@ namespace Test1
     {
         #region Fields
 
-        RectangleF _form;
-        RectangleF _interactionForm;
-        int[] _textures = new int[3];
+        readonly RectangleF _form;
+        readonly RectangleF _interactionForm;
+        readonly int[] _textures = new int[3];
         bool _isActive;
         int _currentState;
 
-        Timer _timer = new Timer(200);
+        readonly Timer _timer = new Timer(200);
         bool _canBeTurned = true;
        
         #endregion

@@ -2,7 +2,7 @@
 {
     class DefaultRoomSupervisor : IRoomSupervisor
     {
-        private Room _room;
+        private readonly Room _room;
 
         public DefaultRoomSupervisor(Room room)
         {
